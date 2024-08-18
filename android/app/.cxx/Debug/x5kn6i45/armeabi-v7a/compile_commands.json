@@ -1,0 +1,7 @@
+[
+{
+  "directory": "C:/Users/nisha/ffi_gmp_project/android/app/.cxx/Debug/x5kn6i45/armeabi-v7a",
+  "command": "C:\\Users\\nisha\\AppData\\Local\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=C:/Users/nisha/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/nisha/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dexample_EXPORTS -IC:/Users/nisha/ffi_gmp_project/android/app/src/main/cpp/../../../../../cpp/include -IC:/Users/nisha/ffi_gmp_project/android/app/src/main/cpp/../../../../../cpp/gmp/output_arm64/include -IC:/Users/nisha/ffi_gmp_project/android/app/src/main/cpp/../../../../../cpp/gmp/output_armeabi/include -IC:/Users/nisha/ffi_gmp_project/android/app/src/main/cpp/../../../../../cpp/gmp/output_x86/include -IC:/Users/nisha/ffi_gmp_project/android/app/src/main/cpp/../../../../../cpp/gmp/output_x86_64/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -std=gnu++17 -o CMakeFiles\\example.dir\\C_\\Users\\nisha\\ffi_gmp_project\\cpp\\src\\example.cpp.o -c C:\\Users\\nisha\\ffi_gmp_project\\cpp\\src\\example.cpp",
+  "file": "C:\\Users\\nisha\\ffi_gmp_project\\cpp\\src\\example.cpp"
+}
+]

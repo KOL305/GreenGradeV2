@@ -1,0 +1,15 @@
+# ninja log v5
+3	978	745207272	CMakeFiles/example.dir/C_/Users/nisha/ffi_gmp_project-2/cpp/src/example.cpp.o	a4a57ffe82d895cb
+979	1191	745207273	C:/Users/nisha/ffi_gmp_project-2/build/app/intermediates/cxx/Debug/353h1j4q/obj/x86/libexample.so	cc6a93726725c30
+3	993	745207557	CMakeFiles/example.dir/C_/Users/nisha/ffi_gmp_project-2/cpp/src/example.cpp.o	a4a57ffe82d895cb
+993	1207	745207557	C:/Users/nisha/ffi_gmp_project-2/build/app/intermediates/cxx/Debug/353h1j4q/obj/x86/libexample.so	cc6a93726725c30
+4	1005	745208006	CMakeFiles/example.dir/C_/Users/nisha/ffi_gmp_project-2/cpp/src/example.cpp.o	a4a57ffe82d895cb
+1005	1187	745208006	C:/Users/nisha/ffi_gmp_project-2/build/app/intermediates/cxx/Debug/353h1j4q/obj/x86/libexample.so	cc6a93726725c30
+2	1054	745208333	CMakeFiles/example.dir/C_/Users/nisha/ffi_gmp_project-2/cpp/src/example.cpp.o	a4a57ffe82d895cb
+1054	1239	745208333	C:/Users/nisha/ffi_gmp_project-2/build/app/intermediates/cxx/Debug/353h1j4q/obj/x86/libexample.so	cc6a93726725c30
+5	1047	745208373	CMakeFiles/example.dir/C_/Users/nisha/ffi_gmp_project-2/cpp/src/example.cpp.o	a4a57ffe82d895cb
+1048	1242	745208373	C:/Users/nisha/ffi_gmp_project-2/build/app/intermediates/cxx/Debug/353h1j4q/obj/x86/libexample.so	cc6a93726725c30
+2	1116	745208737	CMakeFiles/example.dir/C_/Users/nisha/ffi_gmp_project-2/cpp/src/example.cpp.o	a4a57ffe82d895cb
+1116	1288	745208737	C:/Users/nisha/ffi_gmp_project-2/build/app/intermediates/cxx/Debug/353h1j4q/obj/x86/libexample.so	cc6a93726725c30
+2	1119	745209524	CMakeFiles/example.dir/C_/Users/nisha/ffi_gmp_project-2/cpp/src/example.cpp.o	a4a57ffe82d895cb
+1119	1291	745209524	C:/Users/nisha/ffi_gmp_project-2/build/app/intermediates/cxx/Debug/353h1j4q/obj/x86/libexample.so	cc6a93726725c30

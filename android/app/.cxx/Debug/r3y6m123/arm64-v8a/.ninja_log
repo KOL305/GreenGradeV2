@@ -1,0 +1,11 @@
+# ninja log v5
+1	4430	1723342186	CMakeFiles/example.dir/Users/vikramatmuri/Downloads/ffi_gmp_project/cpp/src/example.cpp.o	91f3c865f067003c
+4432	5566	1723342188	/Users/vikramatmuri/Downloads/ffi_gmp_project/build/app/intermediates/cxx/Debug/r3y6m123/obj/arm64-v8a/libexample.so	216fb0f04ea00a76
+1	1904	1723347822	CMakeFiles/example.dir/Users/vikramatmuri/Downloads/ffi_gmp_project/cpp/src/example.cpp.o	91f3c865f067003c
+1904	2286	1723347823	/Users/vikramatmuri/Downloads/ffi_gmp_project/build/app/intermediates/cxx/Debug/r3y6m123/obj/arm64-v8a/libexample.so	216fb0f04ea00a76
+2	3665	1723354416	CMakeFiles/example.dir/Users/vikramatmuri/Downloads/ffi_gmp_project/cpp/src/example.cpp.o	91f3c865f067003c
+3665	5530	1723354418	/Users/vikramatmuri/Downloads/ffi_gmp_project/build/app/intermediates/cxx/Debug/r3y6m123/obj/arm64-v8a/libexample.so	216fb0f04ea00a76
+29	4064	1723412710	CMakeFiles/example.dir/Users/vikramatmuri/Downloads/ffi_gmp_project/cpp/src/example.cpp.o	91f3c865f067003c
+4064	4692	1723412710	/Users/vikramatmuri/Downloads/ffi_gmp_project/build/app/intermediates/cxx/Debug/r3y6m123/obj/arm64-v8a/libexample.so	216fb0f04ea00a76
+3	5843	1723418615	CMakeFiles/example.dir/Users/vikramatmuri/Downloads/ffi_gmp_project/cpp/src/example.cpp.o	91f3c865f067003c
+5843	7787	1723418617	/Users/vikramatmuri/Downloads/ffi_gmp_project/build/app/intermediates/cxx/Debug/r3y6m123/obj/arm64-v8a/libexample.so	216fb0f04ea00a76

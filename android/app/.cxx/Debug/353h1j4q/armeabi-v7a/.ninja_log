@@ -1,0 +1,15 @@
+# ninja log v5
+0	1200	745207270	CMakeFiles/example.dir/C_/Users/nisha/ffi_gmp_project-2/cpp/src/example.cpp.o	7c57743d4cd22e8e
+1201	1384	745207270	C:/Users/nisha/ffi_gmp_project-2/build/app/intermediates/cxx/Debug/353h1j4q/obj/armeabi-v7a/libexample.so	e296d33085859552
+5	1091	745207555	CMakeFiles/example.dir/C_/Users/nisha/ffi_gmp_project-2/cpp/src/example.cpp.o	7c57743d4cd22e8e
+1092	1311	745207556	C:/Users/nisha/ffi_gmp_project-2/build/app/intermediates/cxx/Debug/353h1j4q/obj/armeabi-v7a/libexample.so	e296d33085859552
+2	1105	745208005	CMakeFiles/example.dir/C_/Users/nisha/ffi_gmp_project-2/cpp/src/example.cpp.o	7c57743d4cd22e8e
+1105	1312	745208005	C:/Users/nisha/ffi_gmp_project-2/build/app/intermediates/cxx/Debug/353h1j4q/obj/armeabi-v7a/libexample.so	e296d33085859552
+3	1077	745208332	CMakeFiles/example.dir/C_/Users/nisha/ffi_gmp_project-2/cpp/src/example.cpp.o	7c57743d4cd22e8e
+1078	1268	745208332	C:/Users/nisha/ffi_gmp_project-2/build/app/intermediates/cxx/Debug/353h1j4q/obj/armeabi-v7a/libexample.so	e296d33085859552
+2	1370	745208372	CMakeFiles/example.dir/C_/Users/nisha/ffi_gmp_project-2/cpp/src/example.cpp.o	7c57743d4cd22e8e
+1371	1609	745208372	C:/Users/nisha/ffi_gmp_project-2/build/app/intermediates/cxx/Debug/353h1j4q/obj/armeabi-v7a/libexample.so	e296d33085859552
+2	1168	745208735	CMakeFiles/example.dir/C_/Users/nisha/ffi_gmp_project-2/cpp/src/example.cpp.o	7c57743d4cd22e8e
+1168	1375	745208736	C:/Users/nisha/ffi_gmp_project-2/build/app/intermediates/cxx/Debug/353h1j4q/obj/armeabi-v7a/libexample.so	e296d33085859552
+3	1750	745209522	CMakeFiles/example.dir/C_/Users/nisha/ffi_gmp_project-2/cpp/src/example.cpp.o	7c57743d4cd22e8e
+1750	1974	745209523	C:/Users/nisha/ffi_gmp_project-2/build/app/intermediates/cxx/Debug/353h1j4q/obj/armeabi-v7a/libexample.so	e296d33085859552

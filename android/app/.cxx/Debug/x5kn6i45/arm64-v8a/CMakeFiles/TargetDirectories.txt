@@ -1,0 +1,3 @@
+C:/Users/nisha/ffi_gmp_project/android/app/.cxx/Debug/x5kn6i45/arm64-v8a/CMakeFiles/example.dir
+C:/Users/nisha/ffi_gmp_project/android/app/.cxx/Debug/x5kn6i45/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/nisha/ffi_gmp_project/android/app/.cxx/Debug/x5kn6i45/arm64-v8a/CMakeFiles/rebuild_cache.dir

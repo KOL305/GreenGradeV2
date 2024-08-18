@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/Users/vikramatmuri/Downloads/ffi_gmp_project/android/app/.cxx/Debug/r3y6m123/x86",
+  "command": "/Users/vikramatmuri/Library/Android/sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=i686-none-linux-android21 --gcc-toolchain=/Users/vikramatmuri/Library/Android/sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/vikramatmuri/Library/Android/sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dexample_EXPORTS -I/Users/vikramatmuri/Downloads/ffi_gmp_project/android/app/src/main/cpp/../../../../../cpp/include -I/Users/vikramatmuri/Downloads/ffi_gmp_project/android/app/src/main/cpp/../../../../../cpp/gmp/output_arm64/include -I/Users/vikramatmuri/Downloads/ffi_gmp_project/android/app/src/main/cpp/../../../../../cpp/gmp/output_armeabi/include -I/Users/vikramatmuri/Downloads/ffi_gmp_project/android/app/src/main/cpp/../../../../../cpp/gmp/output_x86/include -I/Users/vikramatmuri/Downloads/ffi_gmp_project/android/app/src/main/cpp/../../../../../cpp/gmp/output_x86_64/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -std=gnu++17 -o CMakeFiles/example.dir/Users/vikramatmuri/Downloads/ffi_gmp_project/cpp/src/example.cpp.o -c /Users/vikramatmuri/Downloads/ffi_gmp_project/cpp/src/example.cpp",
+  "file": "/Users/vikramatmuri/Downloads/ffi_gmp_project/cpp/src/example.cpp"
+}
+]

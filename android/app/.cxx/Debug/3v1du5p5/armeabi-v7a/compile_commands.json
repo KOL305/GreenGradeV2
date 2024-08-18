@@ -1,0 +1,7 @@
+[
+{
+  "directory": "C:/Users/kadon/Programming/ffi_gmp_project/android/app/.cxx/Debug/3v1du5p5/armeabi-v7a",
+  "command": "C:\\Users\\kadon\\AppData\\Local\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --sysroot=C:/Users/kadon/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dexample_EXPORTS -IC:/Users/kadon/Programming/ffi_gmp_project/android/app/src/main/cpp/../../../../../cpp/include -IC:/Users/kadon/Programming/ffi_gmp_project/android/app/src/main/cpp/../../../../../cpp/gmp/output_arm64/include -IC:/Users/kadon/Programming/ffi_gmp_project/android/app/src/main/cpp/../../../../../cpp/gmp/output_armeabi/include -IC:/Users/kadon/Programming/ffi_gmp_project/android/app/src/main/cpp/../../../../../cpp/gmp/output_x86/include -IC:/Users/kadon/Programming/ffi_gmp_project/android/app/src/main/cpp/../../../../../cpp/gmp/output_x86_64/include -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++ -g  -fno-limit-debug-info -fPIC -std=gnu++17 -o CMakeFiles\\example.dir\\C_\\Users\\kadon\\Programming\\ffi_gmp_project\\cpp\\src\\example.cpp.o -c C:\\Users\\kadon\\Programming\\ffi_gmp_project\\cpp\\src\\example.cpp",
+  "file": "C:\\Users\\kadon\\Programming\\ffi_gmp_project\\cpp\\src\\example.cpp"
+}
+]

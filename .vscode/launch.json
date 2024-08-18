@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Flutter: Run",
+        "request": "launch",
+        "type": "dart",
+        "program": "lib/main.dart",
+        "args": [
+          "--dart-define",
+          "API_KEY=AIzaSyCHqMM4qKAh-kDGL6Ty4bf2LR8PVS53CGM"
+        ]
+      }
+    ]
+  }
+  
