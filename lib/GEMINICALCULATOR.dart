@@ -1073,7 +1073,8 @@ void _addInputField(BuildContext context) {
             fontWeight: FontWeight.bold,
           ),
         ),
-        content: Column(
+       content: SingleChildScrollView(
+         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
@@ -1243,7 +1244,8 @@ void _addInputField(BuildContext context) {
               ),
             )
           ],
-        ),
+        )
+       ),
         actions: [
           TextButton(
               onPressed: () {
