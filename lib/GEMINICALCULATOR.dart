@@ -118,6 +118,12 @@ class _MyHomePageState extends State<MyHomePage> {
       TextEditingController();
   final TextEditingController _numberOfEmployeesMaxController =
       TextEditingController();
+  List<TextEditingController> additionalMinControllers = [];
+  List<TextEditingController> additionalMaxControllers=[];
+  List<Widget> additionalInputFields = [];
+  List<String> additionalLabels=[];
+  List<String> additionalUnits=[];
+
 
   void _clearFields() {
     _totalWaterWithdrawalMinController.clear();
@@ -154,6 +160,10 @@ class _MyHomePageState extends State<MyHomePage> {
     _freshwaterConsumptionMaxController.clear();
     _numberOfEmployeesMinController.clear();
     _numberOfEmployeesMaxController.clear();
+    for(int a = 0;a<additionalMinControllers.length;a++) {
+      additionalMinControllers[a].clear();
+      additionalMaxControllers[a].clear();
+    }
   }
 
   double minVal = -1;
@@ -200,6 +210,30 @@ class _MyHomePageState extends State<MyHomePage> {
       return true;
     }
 
+    bool checkEmptyForAdditional() {
+      for(int c=0;c<additionalMaxControllers.length;c++) {
+        if(additionalMinControllers[c].text.isEmpty || additionalMaxControllers[c].text.isEmpty) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    bool checkMinMaxForAdditional() {
+      for(int b=0;b<additionalMaxControllers.length;b++) {
+        if(additionalMinControllers[b].text.isEmpty || additionalMaxControllers[b].text.isEmpty) {}
+        else {
+          final double? addMinValue=double.tryParse(additionalMinControllers[b].text);
+          final double? addMaxValue=double.tryParse(additionalMaxControllers[b].text);
+          if(addMinValue==null || addMaxValue==null || addMaxValue<addMinValue) {
+            isValid=false;
+            return false;
+          }
+        }
+      }
+      return true;
+    }
+
     // print("running");
     bool checkEmpty(TextEditingController minController,
         TextEditingController maxController) {
@@ -238,7 +272,8 @@ class _MyHomePageState extends State<MyHomePage> {
         !checkMinMax(_freshwaterConsumptionMinController,
             _freshwaterConsumptionMaxController) ||
         !checkMinMax(
-            _numberOfEmployeesMinController, _numberOfEmployeesMaxController)) {
+            _numberOfEmployeesMinController, _numberOfEmployeesMaxController) ||
+            !checkMinMaxForAdditional()) {
       setState(() {
         errorMessage =
             'Max value should be greater than or equal to Min value for all fields.';
@@ -275,7 +310,8 @@ class _MyHomePageState extends State<MyHomePage> {
         !checkEmpty(_freshwaterConsumptionMinController,
             _freshwaterConsumptionMaxController) ||
         !checkEmpty(
-            _numberOfEmployeesMinController, _numberOfEmployeesMaxController)) {
+            _numberOfEmployeesMinController, _numberOfEmployeesMaxController) ||
+            !checkEmptyForAdditional()) {
       setState(() {
         errorMessage = 'All fields must be populated.';
       });
@@ -503,6 +539,10 @@ class _MyHomePageState extends State<MyHomePage> {
       (double.parse(_freshwaterConsumptionMaxController.text) / numEmployees)
           .toString()
     ];
+    for(int n=0;n<additionalInputFields.length;n++) {
+      indicatorVals.add(additionalMinControllers[n].text);
+      indicatorVals.add(additionalMaxControllers[n].text);
+    }
 
     print("runningdd");
   }
@@ -535,25 +575,30 @@ class _MyHomePageState extends State<MyHomePage> {
     final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: apiKey);
 
     String company = nameController.text;
+    String addit = '';
+    String numVals = (34 + 2*additionalLabels.length).toString();
+    for(int m=0;m<additionalLabels.length;m++) {
+      addit=addit + '$additionalLabels[m]' + ' (' + '$additionalUnits[m]' + ') ';
+    }
     final content = [
       Content.text(
-          'Task: You are an expert in analyzing company sustainability reports. Your task is to find certain sustainability data for the company $company. I have provided a sustainability report, and you must extract and estimate specific sustainability indicators from the report and the Internet. Follow the detailed instructions below: 1. Data Extraction: Objective: Extract the following sustainability indicators. For each indicator, provide both the minimum and maximum values: If an exact value is available, use it for both min and max. If the indicator is not explicitly stated, estimate a reasonable range based on the report and other sources on the Internet as well as as company websites, industry averages, or financial databases. If the company is in the United states, use https://www.sec.gov/edgar/search/ to source financial information. Ensure all values are in the correct units. If needed, convert units accordingly. For market cap, look at stock exchanges exclusively as these will be most accurate. Indicators List: Total Water Withdrawal (m³/year) Discharged Water (m³/year) Reused or Treated Water (% of total water withdrawal) Reduction in Freshwater Consumption (%/year) GHG Emissions (kg CO₂ equivalent/year) Air Emissions (metric tons/year) Reduction in GHG (%/year) Energy From Nonrenewable Sources (Joules/year) Energy From Renewable Sources (% of total energy) Total Waste Generated (metric tons/year) Waste Recycled (metric tons/year) Hazardous Waste (metric tons/year) Debt Ratio to Equity Median Salary (USD/year) Market Capitalization (USD) Fresh Water Consumption (m³/year) Number of employees 2. Output Format: Structure: Provide the results in a 1D array with min and max values for each indicator in the same order as listed above. Formatting: Enclose all values in quotes and separate them with commas. The array should be enclosed in square brackets []. Ensure all values are in numerical format without scientific notation. Remove commas and other .on-numeric characters from the values The output must contain 34 values in total. Example Output (DO NOT COPY THIS): ["210.5", "210.5", "228.6", "228.6", "197.2", "214.5", "5", "1", "-11", "0", "15430", "16080", "0.02", "0.03", "-1", "4.4", "4.97", "9.41", "0", "100", "0.2", "0.22", "0.16", "0.18", "0.08", "0.09", "0.4", "0.8", "40000", "150000", "250000", "750000", "101010", "101010e"] 3. Estimation Guidelines: Prioritization: Always prioritize data within the report for estimations. External Sources: If data is missing, search for information on the Internet. This could be the company’s website, reputable financial databases, or industry reports. Benchmarks: For market capitalization, use comparable publicly traded companies as benchmarks. You should only output the array. Do this for the company apple.')
+          'Task: You are an expert in analyzing company sustainability reports. Your task is to find certain sustainability data for the company $company. I have provided a sustainability report, and you must extract and estimate specific sustainability indicators from the report and the Internet. Follow the detailed instructions below: 1. Data Extraction: Objective: Extract the following sustainability indicators. For each indicator, provide both the minimum and maximum values: If an exact value is available, use it for both min and max. If the indicator is not explicitly stated, estimate a reasonable range based on the report and other sources on the Internet as well as as company websites, industry averages, or financial databases. If the company is in the United states, use https://www.sec.gov/edgar/search/ to source financial information. Ensure all values are in the correct units. If needed, convert units accordingly. For market cap, look at stock exchanges exclusively as these will be most accurate. Indicators List: Total Water Withdrawal (m³/year) Discharged Water (m³/year) Reused or Treated Water (% of total water withdrawal) Reduction in Freshwater Consumption (%/year) GHG Emissions (kg CO₂ equivalent/year) Air Emissions (metric tons/year) Reduction in GHG (%/year) Energy From Nonrenewable Sources (Joules/year) Energy From Renewable Sources (% of total energy) Total Waste Generated (metric tons/year) Waste Recycled (metric tons/year) Hazardous Waste (metric tons/year) Debt Ratio to Equity Median Salary (USD/year) Market Capitalization (USD) Fresh Water Consumption (m³/year) Number of employees $addit 2. Output Format: Structure: Provide the results in a 1D array with min and max values for each indicator in the same order as listed above. Formatting: Enclose all values in quotes and separate them with commas. The array should be enclosed in square brackets []. Ensure all values are in numerical format without scientific notation. Remove commas and other .on-numeric characters from the values The output must contain $numVals values in total. Example Output (DO NOT COPY THIS): ["210.5", "210.5", "228.6", "228.6", "197.2", "214.5", "5", "1", "-11", "0", "15430", "16080", "0.02", "0.03", "-1", "4.4", "4.97", "9.41", "0", "100", "0.2", "0.22", "0.16", "0.18", "0.08", "0.09", "0.4", "0.8", "40000", "150000", "250000", "750000", "101010", "101010e"] 3. Estimation Guidelines: Prioritization: Always prioritize data within the report for estimations. External Sources: If data is missing, search for information on the Internet. This could be the company’s website, reputable financial databases, or industry reports. Benchmarks: For market capitalization, use comparable publicly traded companies as benchmarks. You should only output the array. Do this for the company apple.')
     ];
 
     var response = await model.generateContent(content);
-    while (response.text!.split('", "').length != 34) {
+    while (response.text!.split('", "').length != (34+2*additionalInputFields.length)) {
       response = await model.generateContent(content);
     }
     print(response.text);
-
     List<String> indicators = response.text!.split('", "');
+        print(indicators.length);
+
     indicators[0] = indicators[0].substring(2);
-    print(indicators[33]);
-    String str = indicators[33];
+    String str = indicators[35];
     str = str.split('"')[0];
-    indicators[33] = str;
+    indicators[35] = str;
     print(str);
-    print(indicators[33]);
+    print(indicators[35]);
     _totalWaterWithdrawalMinController.text = indicators[0];
     _totalWaterWithdrawalMaxController.text = indicators[1];
     _dischargedWaterMinController.text = indicators[2];
@@ -588,6 +633,15 @@ class _MyHomePageState extends State<MyHomePage> {
     _freshwaterConsumptionMaxController.text = indicators[31];
     _numberOfEmployeesMinController.text = indicators[32];
     _numberOfEmployeesMaxController.text = indicators[33];
+    for(int l=34;l<indicators.length;l++) {
+      if(l>=indicators.length) {break;}
+      if(l %2==0) {
+        additionalMinControllers[((l/2)-17).toInt()].text=indicators[l];
+      }
+      else {
+        additionalMaxControllers[(((l-1)/2)-17).toInt()].text=indicators[l];
+      }
+    }
   }
 
   @override
@@ -926,7 +980,35 @@ class _MyHomePageState extends State<MyHomePage> {
                           _numberOfEmployeesMaxController,
                           '',
                           ''),
+                          ...additionalInputFields,
+                          Padding(
+                            padding: const EdgeInsets.all(15),
+                            child:
+                            ElevatedButton(
+                            onPressed:()=> _addInputField(context),
+              // style: ElevatedButton.styleFrom(
+              //   padding: EdgeInsets.all(30)
+              // ),
+
+                            child: const Text('Add Sustainability Indicator',
+                            style: TextStyle(
+                              color: Color(0xFF11221d),
+                            )),
+                          ),
+                            ),
+                            ElevatedButton(
+                            onPressed:()=> _removeInputFields(context),
+              // style: ElevatedButton.styleFrom(
+              //   padding: EdgeInsets.all(30)
+              // ),
+
+                            child: const Text('Remove Sustainability Indicator',
+                            style: TextStyle(
+                              color: Color(0xFF11221d),
+                            )),
+                          ),
                       SizedBox(height: 20),
+
                     ],
                   ),
                 ),
@@ -968,6 +1050,198 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  final _indicatorNameController=TextEditingController();
+  final _indicatorUnitsController=TextEditingController();
+void _addInputField(BuildContext context) {
+  
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        title: Text(
+          'Add Indicator Details',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: _indicatorNameController,
+              decoration: InputDecoration(
+                labelText: 'Indicator Name',
+                labelStyle: TextStyle(
+                  color: Colors.blueAccent,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.blueAccent,
+                    width: 2,
+
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            TextField(
+              controller: _indicatorUnitsController,
+              decoration: InputDecoration(
+                labelText: 'Units',
+                labelStyle: TextStyle(
+                  color: Colors.blueAccent,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.blueAccent,
+                    width: 2,
+
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            )
+          ],
+        ),
+        actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Cancel',
+                style: TextStyle(color: Colors.redAccent),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if(_indicatorNameController.text.isEmpty || _indicatorUnitsController.text.isEmpty) {}
+                else {
+                setState(() {
+                  additionalMinControllers.add(TextEditingController());
+                additionalMaxControllers.add(TextEditingController());
+                additionalLabels.add(_indicatorNameController.text);
+                additionalUnits.add(_indicatorUnitsController.text);
+                additionalInputFields.add(inputField(_indicatorNameController.text,_indicatorUnitsController.text,additionalMinControllers[additionalMinControllers.length-1],additionalMaxControllers[additionalMaxControllers.length-1],'',''));
+                Navigator.of(context).pop();
+                });
+                
+                }
+              },
+              style: ElevatedButton.styleFrom(
+
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+              child: Text('Submit'),
+            ),
+          ],
+      );
+    }
+  );
+}
+
+
+void _removeInputFields(BuildContext context) {
+  // Initialize the selectedIndicators list based on the current size
+  final selectedIndicators = ValueNotifier<List<bool>>(
+    List<bool>.filled(additionalLabels.length, false),
+  );
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        title: Text(
+          'Remove Indicator',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: Container(
+          width: double.maxFinite,
+          child: ValueListenableBuilder<List<bool>>(
+            valueListenable: selectedIndicators,
+            builder: (context, selectedIndicatorsList, child) {
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: additionalLabels.length,
+                itemBuilder: (context, index) {
+                  return CheckboxListTile(
+                    title: Text(
+                      additionalLabels[index],
+                      style: TextStyle(
+                        color: Colors.blueAccent,
+                      ),
+                    ),
+                    value: selectedIndicatorsList[index],
+                    onChanged: (bool? value) {
+                      final updatedList = List<bool>.from(selectedIndicatorsList);
+                      updatedList[index] = value ?? false;
+                      selectedIndicators.value = updatedList;
+                    },
+                    controlAffinity: ListTileControlAffinity.leading,
+                  );
+                },
+              );
+            },
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text(
+              'Cancel',
+              style: TextStyle(color: Colors.redAccent),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // Remove the selected indicators
+              setState(() {
+                for (int i = additionalLabels.length - 1; i >= 0; i--) {
+                  if (selectedIndicators.value[i]) {
+                    additionalLabels.removeAt(i);
+                    additionalUnits.removeAt(i);
+                    additionalInputFields.removeAt(i);
+                    additionalMinControllers.removeAt(i);
+                    additionalMaxControllers.removeAt(i);
+                  }
+                }
+              });
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+            ),
+            child: Text('Submit'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+
 
   Widget inputField(
       String label,
@@ -1023,7 +1297,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ],
     );
+
+    
   }
+  
 }
 
 
