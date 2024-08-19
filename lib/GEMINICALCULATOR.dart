@@ -123,6 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> additionalInputFields = [];
   List<String> additionalLabels=[];
   List<String> additionalUnits=[];
+  List<String> additionalBreaks=[];
 
 
   void _clearFields() {
@@ -330,7 +331,7 @@ class _MyHomePageState extends State<MyHomePage> {
       analyzeCompany();
       //save to hive
       //navigate to sii finish page
-
+      _clearFields();
       //submission logic
       // print("running");
     }
@@ -594,11 +595,10 @@ class _MyHomePageState extends State<MyHomePage> {
         print(indicators.length);
 
     indicators[0] = indicators[0].substring(2);
-    String str = indicators[35];
+    String str = indicators[indicators.length-1];
     str = str.split('"')[0];
-    indicators[35] = str;
-    print(str);
-    print(indicators[35]);
+    indicators[indicators.length-1] = str;
+
     _totalWaterWithdrawalMinController.text = indicators[0];
     _totalWaterWithdrawalMaxController.text = indicators[1];
     _dischargedWaterMinController.text = indicators[2];
@@ -1053,6 +1053,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final _indicatorNameController=TextEditingController();
   final _indicatorUnitsController=TextEditingController();
+  final _indicatorLowUController=TextEditingController();
+  final _indicatorLowTController =TextEditingController();
+  final _indicatorHighTController =TextEditingController();
+  final _indicatorHighUController=TextEditingController();
+  final _indicatorAlphaController=TextEditingController();
 void _addInputField(BuildContext context) {
   
   showDialog(
@@ -1111,10 +1116,154 @@ void _addInputField(BuildContext context) {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
+            ),
+            SizedBox(height: 16),
+            TextField(
+              controller: _indicatorLowUController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'-?\d*\.?\d*'))
+                ],
+              decoration: InputDecoration(
+                labelText: 'Highest Unacceptable Value (u)',
+                labelStyle: TextStyle(
+                  color: Colors.blueAccent,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.blueAccent,
+                    width: 2,
+
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            TextField(
+              controller: _indicatorLowTController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'-?\d*\.?\d*'))
+                ],
+              decoration: InputDecoration(
+                labelText: 'Lowest Acceptable Value (t)',
+                labelStyle: TextStyle(
+                  color: Colors.blueAccent,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.blueAccent,
+                    width: 2,
+
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            TextField(
+              controller: _indicatorHighTController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'-?\d*\.?\d*'))
+                ],
+              decoration: InputDecoration(
+                labelText: 'Highest Acceptable Value (T)',
+                labelStyle: TextStyle(
+                  color: Colors.blueAccent,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.blueAccent,
+                    width: 2,
+
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            TextField(
+              controller: _indicatorHighUController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'-?\d*\.?\d*'))
+                ],
+              decoration: InputDecoration(
+                labelText: 'Lowest Unacceptable Value (U)',
+                labelStyle: TextStyle(
+                  color: Colors.blueAccent,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.blueAccent,
+                    width: 2,
+
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            TextField(
+              controller: _indicatorAlphaController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'-?\d*\.?\d*'))
+                ],
+              decoration: InputDecoration(
+                labelText: 'Alpha T Value',
+                labelStyle: TextStyle(
+                  color: Colors.blueAccent,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.blueAccent,
+                    width: 2,
+
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
             )
           ],
         ),
         actions: [
+          TextButton(
+              onPressed: () {
+                setState((){
+                   _indicatorNameController.clear();
+                _indicatorUnitsController.clear();
+                _indicatorHighTController.clear();
+                _indicatorHighUController.clear();
+                _indicatorLowTController.clear();
+                _indicatorAlphaController.clear();
+                _indicatorLowUController.clear();
+                print('clearing...');
+                });
+               
+              },
+              child: Text(
+                'Clear Fields',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
@@ -1127,13 +1276,25 @@ void _addInputField(BuildContext context) {
             ElevatedButton(
               onPressed: () {
                 if(_indicatorNameController.text.isEmpty || _indicatorUnitsController.text.isEmpty) {}
+                else if (errorChecking(_indicatorLowUController.text,_indicatorLowTController.text,_indicatorHighTController.text,_indicatorHighUController.text,_indicatorAlphaController.text)==0) {}
                 else {
                 setState(() {
                   additionalMinControllers.add(TextEditingController());
                 additionalMaxControllers.add(TextEditingController());
                 additionalLabels.add(_indicatorNameController.text);
                 additionalUnits.add(_indicatorUnitsController.text);
+               
+                
+                additionalBreaks.add(breakPoint(_indicatorLowUController.text,_indicatorLowTController.text,_indicatorHighTController.text,_indicatorHighUController.text,_indicatorAlphaController.text,errorChecking(_indicatorLowUController.text,_indicatorLowTController.text,_indicatorHighTController.text,_indicatorHighUController.text,_indicatorAlphaController.text)));
                 additionalInputFields.add(inputField(_indicatorNameController.text,_indicatorUnitsController.text,additionalMinControllers[additionalMinControllers.length-1],additionalMaxControllers[additionalMaxControllers.length-1],'',''));
+                _indicatorNameController.clear();
+                _indicatorUnitsController.clear();
+                _indicatorHighTController.clear();
+                _indicatorHighUController.clear();
+                _indicatorLowTController.clear();
+                _indicatorAlphaController.clear();
+                _indicatorLowUController.clear();
+                
                 Navigator.of(context).pop();
                 });
                 
@@ -1153,6 +1314,33 @@ void _addInputField(BuildContext context) {
   );
 }
 
+String breakPoint(String a, String b, String c, String d, String f,int e) {
+  if(e==1) {
+    return '0 0 $c $d $f $e.toString()';
+  }
+  else if(e==2) {
+    return '$a $b 0 0 $f $e.toString()';
+  }
+  else if(e==3) {
+    return '$a $b $c $d $f $e.toString()';
+  }
+  return '';
+}
+
+int errorChecking(String a, String b, String c, String d, String e) {
+  if(a.isEmpty && b.isEmpty && c.isNotEmpty && d.isNotEmpty && double.parse(c)<=double.parse(d) && double.parse(e)>0 && double.parse(e)<1) {
+    return 1;
+  }
+  else if(a.isNotEmpty && b.isNotEmpty && c.isEmpty && d.isEmpty && double.parse(a)<=double.parse(b) && double.parse(e)>0 && double.parse(e)<1) {
+    return 2;
+  }
+  else if(a.isNotEmpty && b.isNotEmpty && c.isNotEmpty && d.isNotEmpty && double.parse(a)<=double.parse(b) && double.parse(b)<=double.parse(c)&&double.parse(c)<=double.parse(d) && double.parse(e)>0 && double.parse(e)<1) {
+    return 3;
+  }
+  else {
+    return 0;
+  }
+}
 
 void _removeInputFields(BuildContext context) {
   // Initialize the selectedIndicators list based on the current size
@@ -1220,6 +1408,7 @@ void _removeInputFields(BuildContext context) {
                   if (selectedIndicators.value[i]) {
                     additionalLabels.removeAt(i);
                     additionalUnits.removeAt(i);
+                    additionalBreaks.removeAt(i);
                     additionalInputFields.removeAt(i);
                     additionalMinControllers.removeAt(i);
                     additionalMaxControllers.removeAt(i);
