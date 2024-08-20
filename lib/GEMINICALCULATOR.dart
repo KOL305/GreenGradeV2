@@ -47,7 +47,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     Hive.openBox('SII');
+    initBoxes();
     super.initState();
+  }
+
+  Future<void> initBoxes() async{
+    additionalBox = await Hive.openBox('additional');
+    _retrieveData();
   }
 
   // Define controllers for each text field
@@ -124,7 +130,33 @@ class _MyHomePageState extends State<MyHomePage> {
   List<String> additionalLabels=[];
   List<String> additionalUnits=[];
   List<String> additionalBreaks=[];
+  var additionalBox;
 
+  void _setData()  {
+    // additionalBox.put('additionalMinControllers',additionalMinControllers);
+    // additionalBox.put('additionalMaxControllers',additionalMaxControllers);
+    // additionalBox.put('additionalInputFields',additionalInputFields);
+    // additionalBox.put('additionalLabels',additionalLabels);
+    // additionalBox.put('additionalUnits',additionalUnits);
+    // additionalBox.put('additionalBreaks',additionalBreaks);
+    
+    additionalBox.put('additionalLabels',additionalLabels);
+    additionalBox.put('additionalUnits',additionalUnits);
+    additionalBox.put('additionalBreaks',additionalBreaks);
+  }
+
+  void _retrieveData() {
+    additionalLabels=additionalBox.get('additionalLabels') ?? [];
+    additionalUnits=additionalBox.get('additionalUnits') ?? [];
+    additionalBreaks=additionalBox.get('additionalBreaks') ?? [];
+
+    for(int e=0;e<additionalLabels.length;e++) {
+    additionalMinControllers.add(TextEditingController( ));
+    additionalMaxControllers.add(TextEditingController());
+    additionalInputFields.add(inputField(additionalLabels[e],additionalUnits[e],additionalMinControllers[e],additionalMaxControllers[e],'',''));
+
+    }
+  }
 
   void _clearFields() {
     _totalWaterWithdrawalMinController.clear();
@@ -583,7 +615,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     final content = [
       Content.text(
-          'Task: You are an expert in analyzing company sustainability reports. Your task is to find certain sustainability data for the company $company. I have provided a sustainability report, and you must extract and estimate specific sustainability indicators from the report and the Internet. Follow the detailed instructions below: 1. Data Extraction: Objective: Extract the following sustainability indicators. For each indicator, provide both the minimum and maximum values: If an exact value is available, use it for both min and max. If the indicator is not explicitly stated, estimate a reasonable range based on the report and other sources on the Internet as well as as company websites, industry averages, or financial databases. If the company is in the United states, use https://www.sec.gov/edgar/search/ to source financial information. Ensure all values are in the correct units. If needed, convert units accordingly. For market cap, look at stock exchanges exclusively as these will be most accurate. Indicators List: Total Water Withdrawal (m³/year) Discharged Water (m³/year) Reused or Treated Water (% of total water withdrawal) Reduction in Freshwater Consumption (%/year) GHG Emissions (kg CO₂ equivalent/year) Air Emissions (metric tons/year) Reduction in GHG (%/year) Energy From Nonrenewable Sources (Joules/year) Energy From Renewable Sources (% of total energy) Total Waste Generated (metric tons/year) Waste Recycled (metric tons/year) Hazardous Waste (metric tons/year) Debt Ratio to Equity Median Salary (USD/year) Market Capitalization (USD) Fresh Water Consumption (m³/year) Number of employees $addit 2. Output Format: Structure: Provide the results in a 1D array with min and max values for each indicator in the same order as listed above. Formatting: Enclose all values in quotes and separate them with commas. The array should be enclosed in square brackets []. Ensure all values are in numerical format without scientific notation. Remove commas and other .on-numeric characters from the values The output must contain $numVals values in total. Example Output (DO NOT COPY THIS): ["210.5", "210.5", "228.6", "228.6", "197.2", "214.5", "5", "1", "-11", "0", "15430", "16080", "0.02", "0.03", "-1", "4.4", "4.97", "9.41", "0", "100", "0.2", "0.22", "0.16", "0.18", "0.08", "0.09", "0.4", "0.8", "40000", "150000", "250000", "750000", "101010", "101010e"] 3. Estimation Guidelines: Prioritization: Always prioritize data within the report for estimations. External Sources: If data is missing, search for information on the Internet. This could be the company’s website, reputable financial databases, or industry reports. Benchmarks: For market capitalization, use comparable publicly traded companies as benchmarks. You should only output the array. Do this for the company apple.')
+          'Task: You are an expert in analyzing company sustainability reports. Your task is to find certain sustainability data for the company $company. I have provided a sustainability report, and you must extract and estimate specific sustainability indicators from the report and the Internet. Follow the detailed instructions below: 1. Data Extraction: Objective: Extract the following sustainability indicators. For each indicator, provide both the minimum and maximum values: If an exact value is available, use it for both min and max. If the indicator is not explicitly stated, estimate a reasonable range based on the report and other sources on the Internet as well as as company websites, industry averages, or financial databases. If the company is in the United states, use https://www.sec.gov/edgar/search/ to source financial information. Ensure all values are in the correct units. If needed, convert units accordingly. For market cap, look at stock exchanges exclusively as these will be most accurate. Indicators List: Total Water Withdrawal (m³/year) Discharged Water (m³/year) Reused or Treated Water (% of total water withdrawal) Reduction in Freshwater Consumption (%/year) GHG Emissions (kg CO₂ equivalent/year) Air Emissions (metric tons/year) Reduction in GHG (%/year) Energy From Nonrenewable Sources (Joules/year) Energy From Renewable Sources (% of total energy) Total Waste Generated (metric tons/year) Waste Recycled (metric tons/year) Hazardous Waste (metric tons/year) Debt Ratio to Equity Median Salary (USD/year) Market Capitalization (USD) Fresh Water Consumption (m³/year) Number of employees $addit 2. Output Format: Structure: Provide the results in a 1D array with min and max values for each indicator in the same order as listed above. Formatting: Enclose all values in quotes and separate them with commas. The array should be enclosed in square brackets []. Ensure all values are in numerical format without scientific notation. Remove commas and other .on-numeric characters from the values The output must contain $numVals values in total. Example Output (DO NOT COPY THIS): ["210.5", "210.5", "228.6", "228.6", "197.2", "214.5", "5", "1", "-11", "0", "15430", "16080", "0.02", "0.03", "-1", "4.4", "4.97", "9.41", "0", "100", "0.2", "0.22", "0.16", "0.18", "0.08", "0.09", "0.4", "0.8", "40000", "150000", "250000", "750000", "101010", "101010e"] 3. Estimation Guidelines: Prioritization: Always prioritize data within the report for estimations. External Sources: If data is missing, search for information on the Internet. This could be the company’s website, reputable financial databases, or industry reports. Benchmarks: For market capitalization, use comparable publicly traded companies as benchmarks. You should only output the array.')
     ];
 
     var response = await model.generateContent(content);
@@ -1296,7 +1328,7 @@ void _addInputField(BuildContext context) {
                 _indicatorLowTController.clear();
                 _indicatorAlphaController.clear();
                 _indicatorLowUController.clear();
-                
+                _setData();
                 Navigator.of(context).pop();
                 });
                 
@@ -1414,6 +1446,7 @@ void _removeInputFields(BuildContext context) {
                     additionalInputFields.removeAt(i);
                     additionalMinControllers.removeAt(i);
                     additionalMaxControllers.removeAt(i);
+                    _setData();
                   }
                 }
               });
