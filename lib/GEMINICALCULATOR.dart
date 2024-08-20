@@ -146,16 +146,22 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _retrieveData() {
-    additionalLabels=additionalBox.get('additionalLabels') ?? [];
+    
+  
+    setState(() {
+      additionalLabels=additionalBox.get('additionalLabels') ?? [];
     additionalUnits=additionalBox.get('additionalUnits') ?? [];
     additionalBreaks=additionalBox.get('additionalBreaks') ?? [];
 
     for(int e=0;e<additionalLabels.length;e++) {
+    print(additionalLabels[e]);
+    print(additionalUnits[e]);
     additionalMinControllers.add(TextEditingController( ));
     additionalMaxControllers.add(TextEditingController());
     additionalInputFields.add(inputField(additionalLabels[e],additionalUnits[e],additionalMinControllers[e],additionalMaxControllers[e],'',''));
 
     }
+    });
   }
 
   void _clearFields() {
