@@ -631,7 +631,7 @@ tuple<string, string> correctInputs(double* array){
 
 
 
-extern "C" int real(double* array, double* additionalArr) {
+extern "C" int real(double* array, char** additionalArr) {
   auto vals = correctInputs(array);
   string bival = get<0>(vals);
   string actval = get<1>(vals);

@@ -404,16 +404,26 @@ class _MyHomePageState extends State<MyHomePage> {
     return returnArr;
   }
 
-List<List<double>> convertStringsTo2DList(List<String> stringList) {
-  return stringList.map((str) {
-    // Split the string into parts using space as the delimiter
-    List<String> parts = str.split(' ');
-
-    // Convert each part to a double
-    List<double> row = parts.map((part) => double.parse(part)).toList();
-
-    return row;
-  }).toList();
+List<double> convertStringsTo2DList(List<String> stringList) {
+  List<double> returnArr=[];
+  List<String> str=[];
+  for(int i =0;i<stringList.length;i++) {
+    str=stringList[i].split(' ');
+    for(int j=0;j<7;j++) {
+      int? integerValue = int.tryParse(str[j]);
+      if(integerValue!=null) {
+        print(integerValue);
+        double doubleVal=integerValue.toDouble();
+        print(doubleVal);
+        String stringVal=doubleVal.toString();
+        print(stringVal);
+        str[j]=stringVal;
+        print(str[j]);
+      }
+      returnArr.add(double.parse(str[j]));
+    }
+  }
+  return returnArr;
 }
 
   //List<double> doubleIndicatorVals = [];
@@ -426,27 +436,26 @@ List<List<double>> convertStringsTo2DList(List<String> stringList) {
 
     List<double> doubleIndicatorVals = arrStringToDoub(indicatorVals);
 
-    List<List<double>> doubleAdditionalBreaks=convertStringsTo2DList(additionalBreaks);
+    //List<double> doubleAdditionalBreaks=convertStringsTo2DList(additionalBreaks);
 
     // print(doubleIndicatorVals.length);
 
     // Allocate memory for the array in native memory
     Pointer<Double> nativeArray = malloc<Double>(doubleIndicatorVals.length);
-    Pointer<Double> native2DArr = malloc<Double>(doubleAdditionalBreaks.length * 7);
-
+    //Pointer<Double> native2DArr = malloc<Double>(doubleAdditionalBreaks.length * 7);
+    Pointer<Pointer<Utf8>> nativeStringArr=calloc<Pointer<Utf8>>(additionalBreaks.length);
     // Copy Dart array to native memory
     for (int i = 0; i < doubleIndicatorVals.length; i++) {
       nativeArray[i] = doubleIndicatorVals[i];
     }
 
-    int index=0;
-    for(int len1=0;len1<doubleAdditionalBreaks.length;len1++) {
-      for(int len2=0;len2<7;len2++) {
-        native2DArr[index]=doubleAdditionalBreaks[len1][len2];
-        index++;
-      }
-    }
+    // for(int l=0;l<doubleAdditionalBreaks.length;l++) {
+    //   native2DArr[l]=doubleAdditionalBreaks[l];    
+    //   }
 
+  for(int l = 0;l<additionalBreaks.length;l++) {
+    nativeStringArr[l]=additionalBreaks[l].toNativeUtf8();
+  }
     // for (int i = 0; i < dartArray.length; i++) {
     // print(nativeArray[i]);
     // }
@@ -478,8 +487,8 @@ List<List<double>> convertStringsTo2DList(List<String> stringList) {
     // print("done with i ints");
     // print(getActual().toDartString());
     final real =
-        nativeLib.lookupFunction<Int32 Function(Pointer<Double>,Pointer<Double>), int Function(Pointer<Double>,Pointer<Double>)>("real");
-    real(nativeArray,native2DArr);
+        nativeLib.lookupFunction<Int32 Function(Pointer<Double>,Pointer<Pointer<Utf8>>), int Function(Pointer<Double>,Pointer<Pointer<Utf8>>)>("real");
+    real(nativeArray,nativeStringArr);
     final getMin = nativeLib
         .lookupFunction<Double Function(), double Function()>("getMin");
 
