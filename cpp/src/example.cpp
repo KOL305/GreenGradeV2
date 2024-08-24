@@ -176,47 +176,49 @@ void addSums(int arr[], int len, int x) {
 }
 
 void addHUMS(int arr[], int len) {
-  int count = 0; 
-  for (int i = 0; i < 5; i++) {
-    for (int j = 0; j < 5; j++) {
-      for (int k = 0; k < 5; k++) {
-        for (int p = 0; p < 5; p++) {
-          for (int q = 0; q < 5; q++) {
-            rsHUMS[count][0] = Lingvars1[i];
-            rsHUMS[count][1] = Lingvars1[j];
-            rsHUMS[count][2] = Lingvars1[k];
-            rsHUMS[count][3] = Lingvars1[p];
-            rsHUMS[count][4] = Lingvars1[q];
+    int combinations = pow(len, numBIcategory.size());
 
-            int sum = Lingvars1[i] + Lingvars1[j] + Lingvars1[k] +
-                      Lingvars1[p] + Lingvars1[q];
+    // Resize rs to fit all combinations
+    int startIndex = rsHUMS.size();
+    rsHUMS.resize(startIndex + combinations, vector<int>(numBIcategory.size() + 1, 0));
 
-            if (sum == 5 || sum == 6 || sum == 7) {
-              rsHUMS[count][5] = 1;
-            } else if (sum == 8 || sum == 9) {
-              rsHUMS[count][5] = 2;
-            } else if (sum == 10 || sum == 11) {
-              rsHUMS[count][5] = 3;
-            } else if (sum == 12 || sum == 13) {
-              rsHUMS[count][5] = 4;
-            } else if (sum == 14 || sum == 15 || sum == 16) {
-              rsHUMS[count][5] = 5;
-            } else if (sum == 17 || sum == 18) {
-              rsHUMS[count][5] = 6;
-            } else if (sum == 19 || sum == 20) {
-              rsHUMS[count][5] = 7;
-            } else if (sum == 21 || sum == 22) {
-              rsHUMS[count][5] = 8;
-            } else {
-              rsHUMS[count][5] = 9;
-            }
-            count++;
-          }
+    // Calculate the minimum and maximum possible sums
+    int minSum = numBIcategory.size();
+    int maxSum = 5 * numBIcategory.size();
+    double step = static_cast<double>(maxSum - minSum) / 11; // Adjust step to ensure better distribution
+
+    for (int k = 0; k < combinations; k++) {
+        int sum = 0;
+        int temp = k;
+        for (int i = 0; i < numBIcategory.size(); i++) {
+            rsHUMS[startIndex + k]
+              [i] = arr[temp % len];
+            sum += rsHUMS[startIndex + k][i];
+            temp /= len;
         }
-      }
-    }
-  }
+        rsHUMS[startIndex + k][numBIcategory.size()] = sum;  // Storing the sum as the last element
 
+        // Determine the category for the sum
+        if (sum <= minSum + 2 * step) { // Larger range for category 1
+            rsHUMS[startIndex + k][numBIcategory.size()] = 1;
+        } else if (sum <= minSum + 3 * step) {
+            rsHUMS[startIndex + k][numBIcategory.size()] = 2;
+        } else if (sum <= minSum + 4 * step) {
+            rsHUMS[startIndex + k][numBIcategory.size()] = 3;
+        } else if (sum <= minSum + 5 * step) {
+            rsHUMS[startIndex + k][numBIcategory.size()] = 4;
+        } else if (sum <= minSum + 6 * step) {
+            rsHUMS[startIndex + k][numBIcategory.size()] = 5;
+        } else if (sum <= minSum + 7 * step) {
+            rsHUMS[startIndex + k][numBIcategory.size()] = 6;
+        } else if (sum <= minSum + 8 * step) {
+            rsHUMS[startIndex + k][numBIcategory.size()] = 7;
+        } else if (sum <= minSum + 9 * step) {
+            rsHUMS[startIndex + k][numBIcategory.size()] = 8;
+        } else {
+            rsHUMS[startIndex + k][numBIcategory.size()] = 9;
+        }
+    }
 }
 
 void edgeBreak(double Xmin, double Xmax) { // Inputs the Xmin & Xmax values from
@@ -590,6 +592,13 @@ tuple<string, string> correctInputs(double* array){
   ActualIntsConst += std::to_string(array[30]) + " ";
   ActualIntsConst += std::to_string(array[31]);
 
+  for(int b=33;b<array.length;b++) {
+    BIintsConst += std::to_string(array[b-1]) +" ";
+    if(b%2==0) {
+      BIintsConst +="\n";
+    }
+  }
+
   BIlist.push_back(BIintsConst);
 
   LOGI("PRINTING BINTCONST");
@@ -622,12 +631,16 @@ tuple<string, string> correctInputs(double* array){
 
 
 
-extern "C" int real(double* array) {
+extern "C" int real(double* array, double* additionalArr) {
   auto vals = correctInputs(array);
   string bival = get<0>(vals);
   string actval = get<1>(vals);
   combos.clear();
   BIbreaks.clear();
+  BIbreaksConst+= "\n";
+  for(int n=0;n<additionalArr.length;n++) {
+    BIbreaksConst=additionalArr[n] + "\n";
+  }
   BIints.clear();
   ActualInts.clear();
   variables.clear();

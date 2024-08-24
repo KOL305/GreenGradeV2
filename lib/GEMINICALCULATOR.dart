@@ -404,6 +404,18 @@ class _MyHomePageState extends State<MyHomePage> {
     return returnArr;
   }
 
+List<List<double>> convertStringsTo2DList(List<String> stringList) {
+  return stringList.map((str) {
+    // Split the string into parts using space as the delimiter
+    List<String> parts = str.split(' ');
+
+    // Convert each part to a double
+    List<double> row = parts.map((part) => double.parse(part)).toList();
+
+    return row;
+  }).toList();
+}
+
   //List<double> doubleIndicatorVals = [];
   void callCFunction() {
     // print("running");
@@ -414,14 +426,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
     List<double> doubleIndicatorVals = arrStringToDoub(indicatorVals);
 
+    List<List<double>> doubleAdditionalBreaks=convertStringsTo2DList(additionalBreaks);
+
     // print(doubleIndicatorVals.length);
 
     // Allocate memory for the array in native memory
     Pointer<Double> nativeArray = malloc<Double>(doubleIndicatorVals.length);
+    Pointer<Double> native2DArr = malloc<Double>(doubleAdditionalBreaks.length * 7);
 
     // Copy Dart array to native memory
     for (int i = 0; i < doubleIndicatorVals.length; i++) {
       nativeArray[i] = doubleIndicatorVals[i];
+    }
+
+    int index=0;
+    for(int len1=0;len1<doubleAdditionalBreaks.length;len1++) {
+      for(int len2=0;len2<7;len2++) {
+        native2DArr[index]=doubleAdditionalBreaks[len1][len2];
+        index++;
+      }
     }
 
     // for (int i = 0; i < dartArray.length; i++) {
@@ -455,8 +478,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // print("done with i ints");
     // print(getActual().toDartString());
     final real =
-        nativeLib.lookupFunction<Int32 Function(Pointer<Double>), int Function(Pointer<Double>)>("real");
-    real(nativeArray);
+        nativeLib.lookupFunction<Int32 Function(Pointer<Double>,Pointer<Double>), int Function(Pointer<Double>,Pointer<Double>)>("real");
+    real(nativeArray,native2DArr);
     final getMin = nativeLib
         .lookupFunction<Double Function(), double Function()>("getMin");
 
@@ -1096,6 +1119,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final _indicatorHighTController =TextEditingController();
   final _indicatorHighUController=TextEditingController();
   final _indicatorAlphaController=TextEditingController();
+  final _indicatorCategoryController = TextEditingController();
 void _addInputField(BuildContext context) {
   
   showDialog(
@@ -1280,7 +1304,31 @@ void _addInputField(BuildContext context) {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-            )
+            ),
+            SizedBox(height: 16),
+            TextField(
+              controller: _indicatorCategoryController,
+              keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(r'^[1-9]\d*')),                  ],
+              decoration: InputDecoration(
+                labelText: 'Category',
+                labelStyle: TextStyle(
+                  color: Colors.blueAccent,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.blueAccent,
+                    width: 2,
+
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
           ],
         )
        ),
@@ -1295,6 +1343,7 @@ void _addInputField(BuildContext context) {
                 _indicatorLowTController.clear();
                 _indicatorAlphaController.clear();
                 _indicatorLowUController.clear();
+                _indicatorCategoryController.clear();
                 print('clearing...');
                 });
                
@@ -1316,7 +1365,7 @@ void _addInputField(BuildContext context) {
             ElevatedButton(
               onPressed: () {
                 if(_indicatorNameController.text.isEmpty || _indicatorUnitsController.text.isEmpty) {}
-                else if (errorChecking(_indicatorLowUController.text,_indicatorLowTController.text,_indicatorHighTController.text,_indicatorHighUController.text,_indicatorAlphaController.text)==0) {}
+                else if (errorChecking(_indicatorLowUController.text,_indicatorLowTController.text,_indicatorHighTController.text,_indicatorHighUController.text,_indicatorAlphaController.text,_indicatorCategoryController.text)==0) {}
                 else {
                 setState(() {
                   additionalMinControllers.add(TextEditingController());
@@ -1325,7 +1374,7 @@ void _addInputField(BuildContext context) {
                 additionalUnits.add(_indicatorUnitsController.text);
                
                 
-                additionalBreaks.add(breakPoint(_indicatorLowUController.text,_indicatorLowTController.text,_indicatorHighTController.text,_indicatorHighUController.text,_indicatorAlphaController.text,errorChecking(_indicatorLowUController.text,_indicatorLowTController.text,_indicatorHighTController.text,_indicatorHighUController.text,_indicatorAlphaController.text)));
+                additionalBreaks.add(breakPoint(_indicatorLowUController.text,_indicatorLowTController.text,_indicatorHighTController.text,_indicatorHighUController.text,_indicatorAlphaController.text,errorChecking(_indicatorLowUController.text,_indicatorLowTController.text,_indicatorHighTController.text,_indicatorHighUController.text,_indicatorAlphaController.text,_indicatorCategoryController.text),_indicatorCategoryController.text));
                 additionalInputFields.add(inputField(_indicatorNameController.text,_indicatorUnitsController.text,additionalMinControllers[additionalMinControllers.length-1],additionalMaxControllers[additionalMaxControllers.length-1],'',''));
                 _indicatorNameController.clear();
                 _indicatorUnitsController.clear();
@@ -1334,6 +1383,7 @@ void _addInputField(BuildContext context) {
                 _indicatorLowTController.clear();
                 _indicatorAlphaController.clear();
                 _indicatorLowUController.clear();
+                _indicatorCategoryController.clear();
                 _setData();
                 Navigator.of(context).pop();
                 });
@@ -1354,20 +1404,21 @@ void _addInputField(BuildContext context) {
   );
 }
 
-String breakPoint(String a, String b, String c, String d, String f,int e) {
+String breakPoint(String a, String b, String c, String d, String f,int e, String g) {
   if(e==1) {
-    return '0 0 $c $d $f $e.toString()';
+    return '0 0 $c $d $f $e.toString() $g';
   }
   else if(e==2) {
-    return '$a $b 0 0 $f $e.toString()';
+    return '$a $b 0 0 $f $e.toString() $g';
   }
   else if(e==3) {
-    return '$a $b $c $d $f $e.toString()';
+    return '$a $b $c $d $f $e.toString() $g';
   }
   return '';
 }
 
-int errorChecking(String a, String b, String c, String d, String e) {
+int errorChecking(String a, String b, String c, String d, String e,String f) {
+  if(f.isEmpty) { return 0;}
   if(a.isEmpty && b.isEmpty && c.isNotEmpty && d.isNotEmpty && double.parse(c)<=double.parse(d) && double.parse(e)>0 && double.parse(e)<1) {
     return 1;
   }
