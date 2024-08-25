@@ -631,15 +631,18 @@ tuple<string, string> correctInputs(double* array){
 
 
 
-extern "C" int real(double* array, char** additionalArr) {
+extern "C" int real(double* array, double* additionalArr) {
   auto vals = correctInputs(array);
   string bival = get<0>(vals);
   string actval = get<1>(vals);
   combos.clear();
   BIbreaks.clear();
   BIbreaksConst+= "\n";
-  for(int n=0;n<additionalArr.length;n++) {
-    BIbreaksConst=additionalArr[n] + "\n";
+  for(int n=1;n<=additionalArr.length;n++) {
+    BIbreaksConst=additionalArr[n-1] + "\n";
+    if(n%7==0) {
+      BiBreaksConst+="\n";
+    }
   }
   BIints.clear();
   ActualInts.clear();

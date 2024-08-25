@@ -365,6 +365,7 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     } else {
       setIndicatorVals();
+      print(additionalBreaks);
       callCFunction();
       analyzeCompany();
       //save to hive
@@ -410,6 +411,7 @@ List<double> convertStringsTo2DList(List<String> stringList) {
   for(int i =0;i<stringList.length;i++) {
     str=stringList[i].split(' ');
     for(int j=0;j<7;j++) {
+      print(str[j]);
       int? integerValue = int.tryParse(str[j]);
       if(integerValue!=null) {
         print(integerValue);
@@ -420,6 +422,7 @@ List<double> convertStringsTo2DList(List<String> stringList) {
         str[j]=stringVal;
         print(str[j]);
       }
+      print(str[j]);
       returnArr.add(double.parse(str[j]));
     }
   }
@@ -436,26 +439,23 @@ List<double> convertStringsTo2DList(List<String> stringList) {
 
     List<double> doubleIndicatorVals = arrStringToDoub(indicatorVals);
 
-    //List<double> doubleAdditionalBreaks=convertStringsTo2DList(additionalBreaks);
+    List<double> doubleAdditionalBreaks=convertStringsTo2DList(additionalBreaks);
 
     // print(doubleIndicatorVals.length);
 
     // Allocate memory for the array in native memory
     Pointer<Double> nativeArray = malloc<Double>(doubleIndicatorVals.length);
-    //Pointer<Double> native2DArr = malloc<Double>(doubleAdditionalBreaks.length * 7);
-    Pointer<Pointer<Utf8>> nativeStringArr=calloc<Pointer<Utf8>>(additionalBreaks.length);
+    Pointer<Double> native2DArr = malloc<Double>(doubleAdditionalBreaks.length * 7);
+
     // Copy Dart array to native memory
     for (int i = 0; i < doubleIndicatorVals.length; i++) {
       nativeArray[i] = doubleIndicatorVals[i];
     }
 
-    // for(int l=0;l<doubleAdditionalBreaks.length;l++) {
-    //   native2DArr[l]=doubleAdditionalBreaks[l];    
-    //   }
+    for(int l=0;l<doubleAdditionalBreaks.length;l++) {
+      native2DArr[l]=doubleAdditionalBreaks[l]
+;    }
 
-  for(int l = 0;l<additionalBreaks.length;l++) {
-    nativeStringArr[l]=additionalBreaks[l].toNativeUtf8();
-  }
     // for (int i = 0; i < dartArray.length; i++) {
     // print(nativeArray[i]);
     // }
@@ -487,8 +487,8 @@ List<double> convertStringsTo2DList(List<String> stringList) {
     // print("done with i ints");
     // print(getActual().toDartString());
     final real =
-        nativeLib.lookupFunction<Int32 Function(Pointer<Double>,Pointer<Pointer<Utf8>>), int Function(Pointer<Double>,Pointer<Pointer<Utf8>>)>("real");
-    real(nativeArray,nativeStringArr);
+        nativeLib.lookupFunction<Int32 Function(Pointer<Double>,Pointer<Double>), int Function(Pointer<Double>,Pointer<Double>)>("real");
+    real(nativeArray,native2DArr);
     final getMin = nativeLib
         .lookupFunction<Double Function(), double Function()>("getMin");
 
@@ -1374,7 +1374,7 @@ void _addInputField(BuildContext context) {
             ElevatedButton(
               onPressed: () {
                 if(_indicatorNameController.text.isEmpty || _indicatorUnitsController.text.isEmpty) {}
-                else if (errorChecking(_indicatorLowUController.text,_indicatorLowTController.text,_indicatorHighTController.text,_indicatorHighUController.text,_indicatorAlphaController.text,_indicatorCategoryController.text)==0) {}
+                else if (errorChecking(_indicatorLowUController.text,_indicatorLowTController.text,_indicatorHighTController.text,_indicatorHighUController.text,_indicatorAlphaController.text,_indicatorCategoryController.text)=='0') {}
                 else {
                 setState(() {
                   additionalMinControllers.add(TextEditingController());
@@ -1413,32 +1413,32 @@ void _addInputField(BuildContext context) {
   );
 }
 
-String breakPoint(String a, String b, String c, String d, String f,int e, String g) {
-  if(e==1) {
-    return '0 0 $c $d $f $e.toString() $g';
+String breakPoint(String a, String b, String c, String d, String f,String e, String g) {
+  if(e=='1') {
+    return '0 0 $c $d $f $e $g';
   }
-  else if(e==2) {
-    return '$a $b 0 0 $f $e.toString() $g';
+  else if(e=='2') {
+    return '$a $b 0 0 $f $e $g';
   }
-  else if(e==3) {
-    return '$a $b $c $d $f $e.toString() $g';
+  else if(e=='3') {
+    return '$a $b $c $d $f $e $g';
   }
   return '';
 }
 
-int errorChecking(String a, String b, String c, String d, String e,String f) {
-  if(f.isEmpty) { return 0;}
+String errorChecking(String a, String b, String c, String d, String e,String f) {
+  if(f.isEmpty) { return '0';}
   if(a.isEmpty && b.isEmpty && c.isNotEmpty && d.isNotEmpty && double.parse(c)<=double.parse(d) && double.parse(e)>0 && double.parse(e)<1) {
-    return 1;
+    return '1';
   }
   else if(a.isNotEmpty && b.isNotEmpty && c.isEmpty && d.isEmpty && double.parse(a)<=double.parse(b) && double.parse(e)>0 && double.parse(e)<1) {
-    return 2;
+    return '2';
   }
   else if(a.isNotEmpty && b.isNotEmpty && c.isNotEmpty && d.isNotEmpty && double.parse(a)<=double.parse(b) && double.parse(b)<=double.parse(c)&&double.parse(c)<=double.parse(d) && double.parse(e)>0 && double.parse(e)<1) {
-    return 3;
+    return '3';
   }
   else {
-    return 0;
+    return '0';
   }
 }
 
