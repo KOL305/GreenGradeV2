@@ -439,7 +439,7 @@ List<double> convertStringsTo2DList(List<String> stringList) {
     // test array, u will have to use the one from gemini
 
     List<double> doubleIndicatorVals = arrStringToDoub(indicatorVals);
-
+    // CHECK HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
     List<double> doubleAdditionalBreaks=convertStringsTo2DList(additionalBreaks);
 
     // print(doubleIndicatorVals.length);
