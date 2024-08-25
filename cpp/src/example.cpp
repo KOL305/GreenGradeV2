@@ -637,12 +637,12 @@ extern "C" int real(double* array, double* additionalArr) {
   string actval = get<1>(vals);
   combos.clear();
   BIbreaks.clear();
-  BIbreaksConst+= "\n";
-  for(int n=1;n<=additionalArr.length;n++) {
-    BIbreaksConst=additionalArr[n-1] + "\n";
-    if(n%7==0) {
+  for(int n=0;n=additionalArr.length;n++) {
+     if(n%7==0) {
       BiBreaksConst+="\n";
     }
+    BIbreaksConst=additionalArr[n-1] + " ";
+
   }
   BIints.clear();
   ActualInts.clear();
