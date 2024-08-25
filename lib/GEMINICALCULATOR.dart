@@ -446,7 +446,7 @@ List<double> convertStringsTo2DList(List<String> stringList) {
 
     // Allocate memory for the array in native memory
     Pointer<Double> nativeArray = malloc<Double>(doubleIndicatorVals.length);
-    Pointer<Double> native2DArr = malloc<Double>(doubleAdditionalBreaks.length * 7);
+    Pointer<Double> native2DArr = malloc<Double>(doubleAdditionalBreaks.length);
 
     // Copy Dart array to native memory
     for (int i = 0; i < doubleIndicatorVals.length; i++) {
@@ -474,6 +474,10 @@ List<double> convertStringsTo2DList(List<String> stringList) {
       // print(nativeArray[i]);
     }
 
+       print(doubleIndicatorVals);
+       print("\n");
+    print(doubleAdditionalBreaks);
+
     // final setNumbers = nativeLib.lookupFunction<Void Function(Pointer<Double>),
     //     void Function(Pointer<Double>)>("correctInputs");
 
@@ -493,8 +497,8 @@ List<double> convertStringsTo2DList(List<String> stringList) {
         Int32 Function(Pointer<Double>, Int32, Pointer<Double>, Int32),
         int Function(Pointer<Double>, int, Pointer<Double>, int)
     >("real");
-
-    real(nativeArray,doubleIndicatorVals.length,native2DArr,(doubleAdditionalBreaks.length *7));
+ 
+    real(nativeArray,doubleIndicatorVals.length,native2DArr,(doubleAdditionalBreaks.length));
     final getMin = nativeLib
         .lookupFunction<Double Function(), double Function()>("getMin");
 
