@@ -176,16 +176,23 @@ void addSums(int arr[], int len, int x) {
 }
 
 void addHUMS(int arr[], int len) {
+    LOGI("chickend"); 
     int combinations = pow(len, numBIcategory.size());
 
     // Resize rs to fit all combinations
+    LOGI("chickpea"); 
     int startIndex = rsHUMS.size();
-    rsHUMS.resize(startIndex + combinations, vector<int>(numBIcategory.size() + 1, 0));
+    LOGI("rooster"); 
+    rsHUMS.resize(startIndex + combinations, vector<int>(numBIcategory.size() + 1, 0)); // GET THE "can't populate more pages for size class 64" here ////////////////////////////////////////////
+    LOGI("bbbbbbb"); 
 
     // Calculate the minimum and maximum possible sums
     int minSum = numBIcategory.size();
+    LOGI("aaaaaaa"); 
     int maxSum = 5 * numBIcategory.size();
+    LOGI("work"); 
     double step = static_cast<double>(maxSum - minSum) / 11; // Adjust step to ensure better distribution
+    LOGI("chicken");
 
     for (int k = 0; k < combinations; k++) {
         int sum = 0;
@@ -592,7 +599,7 @@ tuple<string, string> correctInputs(double* array, int arrayLen){
   ActualIntsConst += std::to_string(array[30]) + " ";
   ActualIntsConst += std::to_string(array[31]);
 
-  for(int b=33;b<arrayLen;b++) {
+  for(int b=33;b<=arrayLen;b++) {
     BIintsConst += std::to_string(array[b-1]) +" ";
     if(b%2==0) {
       BIintsConst +="\n";
@@ -643,9 +650,16 @@ extern "C" int real(double* array, int arraySize, double* additionalArr, int add
      if(n%7==0) {
       BIbreaksConst+="\n";
     }
-    BIbreaksConst+=std::to_string(additionalArr[n-1]) + " ";
+    if(n%7==5 || n%7==6) {
+      BIbreaksConst+=std::to_string((int)additionalArr[n]) + " "; //convert double to int
+      LOGI("%s",std::to_string((int)additionalArr[n]).c_str());
+    }
+    else {
+    BIbreaksConst+=std::to_string(additionalArr[n]) + " ";
+        LOGI("%s", std::to_string(additionalArr[n]).c_str());
+
+    }
     // double apple = 1.0;
-    LOGI("%s", std::to_string(additionalArr[n-1]).c_str());
 
   }
   BIints.clear();
@@ -755,8 +769,10 @@ extern "C" int real(double* array, int arraySize, double* additionalArr, int add
   BIbreaks[6][1] = reductionGHG;
   LOGI("testing 0");
   for (int i = 0; i < BIbreaks.size(); i++) {
+    LOGI("%s", std::to_string(i).c_str());
     xbps = BIbreaks[i];
-    edgeBreak(BIints[i][0], BIints[i][1]);
+    LOGI("%s", std::to_string(BIints[i][0]).c_str());
+    edgeBreak(BIints[i][0], BIints[i][1]); //breaks here on i = 15
     newXebs.push_back(xeb);
   }
   LOGI("TESTING 1");
@@ -789,20 +805,30 @@ extern "C" int real(double* array, int arraySize, double* additionalArr, int add
     }
     xebs.push_back(newRow);
   }
+    LOGI("homixidehomixidehomixide");
+
   numBI = BIbreaks.size();
   for (int i = 0; i < numBI; i++){
     mu0grades.push_back(mu0);
   }
+
+  LOGI("watermelon");
   int arr[] = {1, 2, 3}; 
   int len = sizeof(arr) / sizeof(arr[0]);
   for (int x = 0; x < numBIcategory.size(); x++) {
     addSums(arr, len, x);
   }
+  LOGI("cantalope");
   int level1[] = {1, 2, 3, 4, 5}; 
+  LOGI("dragonfruit");
   len = sizeof(level1) / sizeof(level1[0]);
+  LOGI("grape");
   addHUMS(level1, len);
+  LOGI("pear");
   vector<int> counts(9, 0);
-  nestedLoops(0);
+  LOGI("honeydew");
+  nestedLoops(0); //////////// THIS TAKES QUITE A LONG TIME TO RUN TOO ////////////////////////////
+  LOGI("banana");
   std::sort(combos.begin(), combos.end(),
     [](const std::vector<double> &a, const std::vector<double> &b) {
       return a[0] < b[0];
