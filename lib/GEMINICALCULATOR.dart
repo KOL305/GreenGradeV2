@@ -146,6 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _retrieveData() {
+    //additionalBox.clear():
     
   
     setState(() {
@@ -486,9 +487,14 @@ List<double> convertStringsTo2DList(List<String> stringList) {
     // print(getBIints().toDartString());
     // print("done with i ints");
     // print(getActual().toDartString());
-    final real =
-        nativeLib.lookupFunction<Int32 Function(Pointer<Double>,Pointer<Double>), int Function(Pointer<Double>,Pointer<Double>)>("real");
-    real(nativeArray,native2DArr);
+    // final real =
+    //     nativeLib.lookupFunction<Int32 Function(Pointer<Double>,int,Pointer<Double>,int), int Function(Pointer<Double>,int,Pointer<Double>,int)>("real");
+    final real = nativeLib.lookupFunction<
+        Int32 Function(Pointer<Double>, Int32, Pointer<Double>, Int32),
+        int Function(Pointer<Double>, int, Pointer<Double>, int)
+    >("real");
+
+    real(nativeArray,doubleIndicatorVals.length,native2DArr,(doubleAdditionalBreaks.length *7));
     final getMin = nativeLib
         .lookupFunction<Double Function(), double Function()>("getMin");
 
@@ -502,6 +508,7 @@ List<double> convertStringsTo2DList(List<String> stringList) {
     // print(getMax());
 
     malloc.free(nativeArray);
+    malloc.free(native2DArr);
   }
 
   String text = "";

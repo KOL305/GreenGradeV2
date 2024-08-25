@@ -573,7 +573,7 @@ void nestedLoops(int length){
   }
 }
 
-tuple<string, string> correctInputs(double* array){
+tuple<string, string> correctInputs(double* array, int arrayLen){
   BIintsConst = "";
   ActualIntsConst ="";
 
@@ -592,7 +592,7 @@ tuple<string, string> correctInputs(double* array){
   ActualIntsConst += std::to_string(array[30]) + " ";
   ActualIntsConst += std::to_string(array[31]);
 
-  for(int b=33;b<array.length;b++) {
+  for(int b=33;b<arrayLen;b++) {
     BIintsConst += std::to_string(array[b-1]) +" ";
     if(b%2==0) {
       BIintsConst +="\n";
@@ -631,17 +631,21 @@ tuple<string, string> correctInputs(double* array){
 
 
 
-extern "C" int real(double* array, double* additionalArr) {
-  auto vals = correctInputs(array);
+extern "C" int real(double* array, int arraySize, double* additionalArr, int additionalArrSize) {
+  auto vals = correctInputs(array,arraySize);
   string bival = get<0>(vals);
   string actval = get<1>(vals);
   combos.clear();
   BIbreaks.clear();
-  for(int n=0;n=additionalArr.length;n++) {
+  LOGI("PRINTING AAAAAAAAAAAAAAAAAAA[n-1].toString()");
+  LOGI("PRINTING additionalArr[n-1].toString()");
+  for(int n=0;n<additionalArrSize;n++) {
      if(n%7==0) {
-      BiBreaksConst+="\n";
+      BIbreaksConst+="\n";
     }
-    BIbreaksConst=additionalArr[n-1] + " ";
+    BIbreaksConst+=std::to_string(additionalArr[n-1]) + " ";
+    // double apple = 1.0;
+    LOGI("%s", std::to_string(additionalArr[n-1]).c_str());
 
   }
   BIints.clear();
@@ -673,8 +677,13 @@ extern "C" int real(double* array, double* additionalArr) {
     vector<double> row;
     vector<double> categories;     
     // Read data from BIbreaks.txt
+
+  LOGI("TESTINGGGGGGGGGGGGGGGGGGGGG");
+  LOGI("PRINTING BIBREAKSCONST IN FOR LOOP");
     while (myfile1 >> value) {
       row.push_back(value);
+        
+      LOGI("%s", std::to_string(value).c_str());
       if (row.size() == 7) {
         categories.push_back(row[6]);
         row.pop_back();
@@ -710,7 +719,7 @@ extern "C" int real(double* array, double* additionalArr) {
 
 
 //   myfile2.close();
-
+  LOGI("######################TESTINGG");
   increaseRuntime();
 
   double companyFreshwater = (ActualInts[0][0] + ActualInts[0][1]) / 2;
@@ -736,15 +745,21 @@ extern "C" int real(double* array, double* additionalArr) {
     }
   }
 
+  LOGI("HIHIIHIHIHIHIHIHIETSTNIG");
+  //LOGI("PRINTING BINTCONST");
+  //LOGI("%s", BIbreaksConst.c_str());
 
+  LOGI("EFE");
   BIbreaks[3][1] = reductionFreshwater;
+  LOGI("EFE");
   BIbreaks[6][1] = reductionGHG;
-
+  LOGI("testing 0");
   for (int i = 0; i < BIbreaks.size(); i++) {
     xbps = BIbreaks[i];
     edgeBreak(BIints[i][0], BIints[i][1]);
     newXebs.push_back(xeb);
   }
+  LOGI("TESTING 1");
   for (int i = 0; i < categories.size(); i++){
     if (numCategories < categories[i]){
       numCategories = categories[i];
@@ -752,6 +767,7 @@ extern "C" int real(double* array, double* additionalArr) {
   }
   int val = 0;
   int iteration = 0; // Move iteration outside the loop
+  LOGI("TESTING 2");
   for (int i = 0; i < numCategories; i++) {
       int category = 0;
       if (val < numCategories) { // Adjust the condition to allow correct increments
@@ -763,6 +779,7 @@ extern "C" int real(double* array, double* additionalArr) {
           numBIcategory.push_back(category);
       }
   }
+  LOGI("afwefawefawefwaef");
   for (int i = 0; i < newXebs.size(); i++) {
     std::vector<double> newRow;
     for (int j = 0; j < 8; j++) {
@@ -791,6 +808,7 @@ extern "C" int real(double* array, double* additionalArr) {
       return a[0] < b[0];
     });
   std::cout << "SII Min Value: " << combos[0][0] << "\nMin BI Permutations: ";
+  LOGI("ftjftjyftjfnndrcbngfdcr");
   for (int i = 1; i < combos[0].size(); i++){
     std::cout << "BI " << i << ": " << combos[0][i] << "   ";
   }
@@ -805,7 +823,7 @@ extern "C" int real(double* array, double* additionalArr) {
   }
   std::cout << "\nNumber of Branches: " << combos.size() << " ";
 
-
+LOGI("FINALLLL ENDDDDD");
 
 
 /*
