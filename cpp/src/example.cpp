@@ -851,15 +851,6 @@ extern "C" int real(double* array, int arraySize, double* additionalArr, int add
 
 LOGI("FINALLLL ENDDDDD");
 
-
-/*
-  for (int i = 0; i < BIints.size(); i++){
-    for (int j = 0; j < 2; j++){
-      std::cout << BIints[i][j] << " ";
-    }
-    std::cout << "\n";
-  }*/
-
  return 1;
 
 
